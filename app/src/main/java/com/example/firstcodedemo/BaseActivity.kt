@@ -21,13 +21,17 @@ open class BaseActivity : AppCompatActivity() {
         registerReceiver(receiver, intentFilter)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        ActivityController.removeActivity(this)
+    override fun onPause() {
+        super.onPause()
         if (receiver != null) {
             unregisterReceiver(receiver)
             receiver = null
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        ActivityController.removeActivity(this)
     }
 
     inner class ForceOfflineReceiver : BroadcastReceiver() {
